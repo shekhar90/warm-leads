@@ -1,33 +1,19 @@
 import React, { useState } from "react";
 
 import { Table, Button } from "antd";
+import { get } from "lodash";
 import { LinkedinOutlined, GithubOutlined } from "@ant-design/icons";
 import warmLeads from "../db/warmLeads";
 import Email from "./Emails";
 
-const WarmLeadsTable = () => {
+const WarmLeadsTable = (props) => {
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
-      // filters: [
-      //   {
-      //     text: "Shekhar",
-      //     value: "shekhar",
-      //   },
-      //   {
-      //     text: "Jim",
-      //     value: "Jim",
-      //   },
-      // ],
-      // specify the condition of filtering result
-      // here is that finding the name started with `value`
-      // onFilter: (value, record) => record.name.indexOf(value) === 0,
-      // sorter: (a, b) => a.name.length - b.name.length,
-      // sortDirections: ["descend"],
-      render: (_, record) => {
+      render: (_, record, index) => {
         return (
-          <div>
+          <div key={`key${index}`}>
             {record.name} <br />
             <a
               target="_blank"
@@ -46,8 +32,6 @@ const WarmLeadsTable = () => {
     {
       title: "Job Title",
       dataIndex: "jobTitle",
-      //   defaultSortOrder: "descend",
-      //   sorter: (a, b) => a.jobTitle - b.jobTitle,
     },
     {
       title: "Company",
@@ -73,7 +57,7 @@ const WarmLeadsTable = () => {
         console.log("record", record);
         return (
           <div>
-            {text} <Email record={record} /> 
+            {text} <Email record={record} />
           </div>
         );
       },
@@ -90,16 +74,14 @@ const WarmLeadsTable = () => {
       fixed: "right",
       width: 100,
       render: () => <a>Action</a>,
-    }
+    },
   ];
-  const data = warmLeads;
-  const onChange = (pagination, filters, sorter, extra) => {
-    // console.log("params", pagination, filters, sorter, extra);
-  };
+  let warmLeads = get(props, "leadsData.warmleads", []);
+  const onChange = (pagination, filters, sorter, extra) => {};
   return (
     <Table
       columns={columns}
-      dataSource={data}
+      dataSource={warmLeads}
       pagination={{
         pageSize: 5,
       }}

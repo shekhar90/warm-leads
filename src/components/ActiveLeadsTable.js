@@ -3,30 +3,16 @@ import { Table, Button } from "antd";
 import { LinkedinOutlined, GithubOutlined } from "@ant-design/icons";
 
 import activeLeads from "../db/activeLeads";
+import { get } from "lodash";
 
-const ActiveLeadsTable = () => {
+const ActiveLeadsTable = (props) => {
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
-      // filters: [
-      //   {
-      //     text: "Shekhar",
-      //     value: "shekhar",
-      //   },
-      //   {
-      //     text: "Jim",
-      //     value: "Jim",
-      //   },
-      // ],
-      // specify the condition of filtering result
-      // here is that finding the name started with `value`
-      // onFilter: (value, record) => record.name.indexOf(value) === 0,
-      // sorter: (a, b) => a.name.length - b.name.length,
-      // sortDirections: ["descend"],
-      render: (_, record) => {
+      render: (_, record, index) => {
         return (
-          <div>
+          <div key={`key${index}`}>
             {record.name} <br />
             <a
               target="_blank"
@@ -45,8 +31,6 @@ const ActiveLeadsTable = () => {
     {
       title: "Job Title",
       dataIndex: "jobTitle",
-      //   defaultSortOrder: "descend",
-      //   sorter: (a, b) => a.jobTitle - b.jobTitle,
     },
     {
       title: "Company",
@@ -89,33 +73,14 @@ const ActiveLeadsTable = () => {
       width: 100,
       render: () => <a>Action</a>,
     },
-    // {
-    //     title: "Mails Sent",
-    //     dataIndex: "mailsSent",
-    //     defaultSortOrder: "descend",
-    //     sorter: (a, b) => a.mailsSent - b.mailsSent,
-    //   },
-    //   {
-    //     title: "Open Rate",
-    //     dataIndex: "openRate",
-    //     defaultSortOrder: "descend",
-    //     sorter: (a, b) => a.openRate - b.openRate,
-    //   },
-    //   {
-    //     title: "Actions",
-    //     dataIndex: "actions",
-    //     defaultSortOrder: "descend",
-    //     sorter: (a, b) => a.openRate - b.openRate,
-    //   }
   ];
-  const data = activeLeads;
+  let activeLeads = get(props, 'leadsData.activeleads' , []);
   const onChange = (pagination, filters, sorter, extra) => {
-    // console.log("params", pagination, filters, sorter, extra);
   };
   return (
     <Table
       columns={columns}
-      dataSource={data}
+      dataSource={activeLeads}
       pagination={{
         pageSize: 5,
       }}

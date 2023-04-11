@@ -137,8 +137,8 @@ const App = () => {
               },
             ]}
           />
-          {selectedMenu === "warmLeads" && <WarmLeadsTable />}
-          {selectedMenu === "activeLeads" && <ActiveLeadsTable />}
+          {selectedMenu === "warmLeads" && <WarmLeadsTable leadsData={leadsData} />}
+          {selectedMenu === "activeLeads" && <ActiveLeadsTable leadsData={leadsData} />}
         </Content>
         <Footer style={{ textAlign: "center" }}>
           OneShot.ai ©2023 Created by OneShot
